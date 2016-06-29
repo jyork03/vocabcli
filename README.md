@@ -42,5 +42,5 @@ The --reverse option switches to show the 'definition' first, as opposed to the 
 
 ##TODO
 * Add tags as a way to make subgroups within subjects
-* Add spaced repition
+* Add spaced repetition
 * Improve logging messages with color/font styles/spacing

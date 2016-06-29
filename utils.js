@@ -1,3 +1,5 @@
+"use strict";
+
 const prompt = require('prompt');
 const fs = require('fs');
 
@@ -146,7 +148,7 @@ function quiz(opts, entries) {
 	}
 	
 	if(opts.fullScreen) {
-		process.stdout.write('\033c');
+		process.stdout.write('\\033c');
 	}
 
 	console.log(question + ": " + randomEntry[question]);
@@ -181,7 +183,7 @@ function review(opts, entries) {
 	}
 	
 	if(opts.fullScreen) {
-		process.stdout.write('\033c');
+		process.stdout.write('\\033c');
 	}
 
 	console.log(question + ": " + randomEntry[question]);

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+"use strict";
 
 const program = require('commander');
 const utils = require('./utils.js');
 
 program
-.version('1.0.0')
+.version(require('./package.json').version)
 .usage('commands options <keywords>')
 .option('-l, --learn [subject]', 'Set the subject you wish to learn')
 .option('-a, --add [create]', 'Add a new entry')

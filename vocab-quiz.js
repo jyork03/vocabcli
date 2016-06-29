@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+"use strict";
 
 const program = require('commander');
 const utils = require('./utils.js');
 
 program
-.version('1.0.0')
+.version(require('./package.json').version)
 .usage('options')
 .option('-r, --reverse', 'Reverse order. Ask for the definition, and answer with the term')
 .option('-f, --fullScreen', 'Run the quiz in full screen mode')
