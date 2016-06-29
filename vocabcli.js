@@ -13,9 +13,32 @@ program
 .option('-e, --edit [edit]', 'Edit an entry')
 .option('-q, --query [search]', 'Search for an entry by term or definition')
 .option('-s, --subjects', 'List all subjects')
-.command('review', 'Study your subject')
-.command('quiz', 'Test your knowledge')
-.parse(process.argv);
+
+program
+.command('quiz')
+.description('Test your knowledge')
+.option('-r, --reverse', 'Reverse order. Ask for the definition, and answer with the term')
+.option('-f, --fullScreen', 'Run the quiz in full screen mode')
+.action((options) => {
+	//Start Quiz
+	utils.getEntries((entries) => {
+		utils.quiz({"reverse": options.reverse, "fullScreen": options.fullScreen}, entries);
+	});
+});
+
+program
+.command('review')
+.description('Study your subject')
+.option('-r, --reverse', 'Reverse order. Ask for the definition, and answer with the term')
+.option('-f, --fullScreen', 'Run the quiz in full screen mode')
+.action((options) => {
+	//Start Reviewing
+	utils.getEntries((entries) => {
+		utils.review({"reverse": options.reverse, "fullScreen": options.fullScreen}, entries);
+	});
+});
+
+program.parse(process.argv);
 
 if(program.learn) {
 	utils.learn(program.learn);

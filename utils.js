@@ -148,7 +148,7 @@ function quiz(opts, entries) {
 	}
 	
 	if(opts.fullScreen) {
-		process.stdout.write('\\033c');
+		process.stdout.write("\x1B[2J");
 	}
 
 	console.log(question + ": " + randomEntry[question]);
@@ -183,7 +183,7 @@ function review(opts, entries) {
 	}
 	
 	if(opts.fullScreen) {
-		process.stdout.write('\\033c');
+		process.stdout.write("\x1B[2J");
 	}
 
 	console.log(question + ": " + randomEntry[question]);
