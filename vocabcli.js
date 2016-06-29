@@ -13,6 +13,7 @@ program
 .option('-e, --edit [edit]', 'Edit an entry')
 .option('-q, --query [search]', 'Search for an entry by term or definition')
 .option('-s, --subjects', 'List all subjects')
+.option('-c, --count', 'Display number of entries in subject')
 
 program
 .command('quiz')
@@ -70,4 +71,10 @@ if(program.query) {
 
 if(program.subjects) {
 	utils.getSubjects();
+}
+
+if(program.count) {
+	utils.getEntries((entries) => {
+		console.log(entries.length);
+	});
 }
