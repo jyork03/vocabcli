@@ -1,0 +1,26 @@
+{
+  "name": "vocabcli",
+  "version": "1.0.0",
+  "description": "Simple CLI app for learning anything",
+  "main": "vocabcli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "vocab": "vocabcli.js"
+  },
+  "keywords": [
+    "vocab",
+    "cli",
+    "flashcards",
+    "term",
+    "definition",
+    "vocabulary"
+  ],
+  "author": "Josh York",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "prompt": "^1.0.0"
+  }
+}
