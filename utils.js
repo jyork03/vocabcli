@@ -244,6 +244,10 @@ function getEntries(next) {
 		if(typeof data !== "undefined") {
 			entries = JSON.parse(data);
 		}
+		if(entries.length === 0) {
+			console.log("You currently do not have any entries for this subject.  Please add some with vocab --add <term>");
+			process.exit(0);
+		}
 		next(entries);
 	});
 }
