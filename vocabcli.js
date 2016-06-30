@@ -48,7 +48,7 @@ if(program.learn) {
 if(program.add) {
 	utils.getEntries((entries) => {
 		utils.addEntry(program.add, entries);
-	});
+	}, true);
 }
 
 if(program.delete) {

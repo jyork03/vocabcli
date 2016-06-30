@@ -231,7 +231,7 @@ function setEntries(entries, next) {
 	});
 }
 
-function getEntries(next) {
+function getEntries(next, proceedAnyway) {
 	let entryFile = getEntryFilePath();
 	try {
 		fs.accessSync(entryFile, fs.F_OK);
@@ -244,7 +244,7 @@ function getEntries(next) {
 		if(typeof data !== "undefined") {
 			entries = JSON.parse(data);
 		}
-		if(entries.length === 0) {
+		if(entries.length === 0 && !proceedAnyway) {
 			console.log("You currently do not have any entries for this subject.  Please add some with vocab --add <term>");
 			process.exit(0);
 		}
