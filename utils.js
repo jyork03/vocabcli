@@ -275,20 +275,28 @@ function getConfig(dataDir, configFile) {
 	}
 }
 
-function getSubjects() {
-	for (let i = 0, l = config.subjects.length; i < l; i++) {
-		console.log( config.subjects[i] );
-	}
-}
-
-function getEntryFilePath() {
+function checkSubjects(next) {
 	try {
 		if(!config.subject) throw("You must choose a subject.  --help for more info.");
-		return dataDir + "/" + config.subject + '.json';
+		next();
 	} catch (e) {
 		console.error(e);
 		process.exit(1);
 	}
+}
+
+function getSubjects() {
+	checkSubjects(() => {
+		for (let i = 0, l = config.subjects.length; i < l; i++) {
+			console.log( config.subjects[i] );
+		}
+	});
+}
+
+function getEntryFilePath() {
+	checkSubjects(() => {
+		return dataDir + "/" + config.subject + '.json';
+	});
 }
 
 module.exports = { 
