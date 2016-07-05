@@ -20,9 +20,11 @@ program
 .description('Test your knowledge')
 .option('-r, --reverse', 'Reverse order. Ask for the definition, and answer with the term')
 .option('-f, --fullScreen', 'Run the quiz in full screen mode')
+.option('-t, --tag <tag>', 'Filter the entries by a tag')
 .action((options) => {
 	//Start Quiz
 	utils.getEntries((entries) => {
+		entries = utils.filterTags(entries, options.tag);
 		utils.quiz({"reverse": options.reverse, "fullScreen": options.fullScreen}, entries);
 	});
 });
@@ -32,9 +34,11 @@ program
 .description('Study your subject')
 .option('-r, --reverse', 'Reverse order. Ask for the definition, and answer with the term')
 .option('-f, --fullScreen', 'Run the quiz in full screen mode')
+.option('-t, --tag <tag>', 'Filter the entries by a tag')
 .action((options) => {
 	//Start Reviewing
 	utils.getEntries((entries) => {
+		entries = utils.filterTags(entries, options.tag);
 		utils.review({"reverse": options.reverse, "fullScreen": options.fullScreen}, entries);
 	});
 });

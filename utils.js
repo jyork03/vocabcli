@@ -36,10 +36,13 @@ function addEntry(term, entries) {
 	let entry = {
 		term: term
 	};
-	startPrompt(['definition', 'description'], '', false, (results) => {
+	startPrompt(['definition', 'description', 'tags'], '', false, (results) => {
 		if(results.definition) {
 			entry.definition = results.definition;
 			entry.description = results.description;
+			// replace multiple spaces with one space, trim and split on space
+			entry.tags = results.tags.replace(/ +(?= )/g,'').trim().split(' ');
+
 			entries.push(entry);
 			setEntries(entries, () => {
 				console.log("Added entry: " + term);
@@ -66,6 +69,7 @@ function deleteEntry(term, entries, ignore) {
 		console.log("term: ", entry.term);
 		console.log("definition: ", entry.definition);
 		console.log("description: ", entry.description);
+		console.log("tags: ", entry.tags ? entry.tags.join(' ') : '');
 	} else {
 		console.log("Couldn't find a matching entry.");
 		process.exit(0);
@@ -99,17 +103,20 @@ function editEntry(term, entries, ignore) {
 		console.log("term: ", entry.term);
 		console.log("definition: ", entry.definition);
 		console.log("description: ", entry.description);
+		console.log("tags: ", entry.tags ? entry.tags.join(' ') : '');
 	} else {
 		console.log("Couldn't find a matching entry.");
 		process.exit(0);
 	}
 	promptYesNo('edit', () => {
 		// edit entry
-		startPrompt(['term', 'definition', 'description'], '', false, (results) => {
+		startPrompt(['term', 'definition', 'description', 'tags'], '', false, (results) => {
 			if(results.term && results.definition) {
 				entry.term = results.term;
 				entry.definition = results.definition;
 				entry.description = results.description;
+				// replace multiple spaces with one space, trim and split on space
+				entry.tags = results.tags.replace(/ +(?= )/g,'').trim().split(' ');
 				setEntries(entries, () => {
 					console.log("Edited entry: " + term);
 					ignore.push(index); // make sure this index gets skipped
@@ -140,6 +147,7 @@ function queryEntry(term, entries, ignore) {
 		console.log("term: ", entry.term);
 		console.log("definition: ", entry.definition);
 		console.log("description: ", entry.description);
+		console.log("tags: ", entry.tags ? entry.tags.join(' ') : '');
 	} else {
 		console.log("Couldn't find a matching entry.");
 		process.exit(0);
@@ -176,7 +184,7 @@ function quiz(opts, entries) {
 		} else {
 			console.log('Wrong.');
 		}
-		console.log("	" + answer + ": " + randomEntry[answer]);;
+		console.log("	" + answer + ": " + randomEntry[answer]);
 		console.log("	description: " + randomEntry.description);
 				
 		promptYesNo('continue', () => {
@@ -205,13 +213,13 @@ function review(opts, entries) {
 	console.log(question + ": " + randomEntry[question]);
 
 	startPrompt('press enter', '', false, (results) => {
-		console.log("	" + answer + ": " + randomEntry[answer]);;
+		console.log("	" + answer + ": " + randomEntry[answer]);
 		console.log("	description: " + randomEntry.description);
 				
 		promptYesNo('continue', () => {
 			review(opts, entries);
 		}, () => {
-			console.log("Quiz session ended.");
+			console.log("Review session ended.");
 			process.exit(0);
 		});
 	});
@@ -267,6 +275,27 @@ function getEntries(next, proceedAnyway) {
 	});
 }
 
+function filterTags(entries, tag) {
+	if(typeof tag === 'string') {
+		entries = entries.filter((entry, i) => {
+			if(typeof entry.tags !== "undefined" && entry.tags.indexOf(tag) >= 0) {
+				return entry;
+			}
+		});
+		if(entries.length === 0) {
+			console.log("You currently do not have any entries for this tag.  Please add some with vocab --add <term>");
+			process.exit(0);
+		}
+		return entries;
+
+	} else if(typeof tag === 'undefined'){
+		return entries;
+	} else {
+		console.log("You must provide a value for tag.  See --help for more details");
+		process.exit(1);
+	}
+}
+
 function getConfig(dataDir, configFile) {
 	// Make sure the .vocabcli dir exists in the homepage
 	try {
@@ -319,6 +348,7 @@ function getEntryFilePath() {
 module.exports = { 
 	learn: learn,
 	getEntries: getEntries,
+	filterTags: filterTags,
 	addEntry: addEntry,
 	editEntry: editEntry,
 	deleteEntry: deleteEntry,
