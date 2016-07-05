@@ -37,12 +37,18 @@ function addEntry(term, entries) {
 		term: term
 	};
 	startPrompt(['definition', 'description'], '', false, (results) => {
-		entry.definition = results.definition;
-		entry.description = results.description;
-		entries.push(entry);
-		setEntries(entries, () => {
-			console.log("Added entry: " + term);
-		});
+		if(results.definition) {
+			entry.definition = results.definition;
+			entry.description = results.description;
+			entries.push(entry);
+			setEntries(entries, () => {
+				console.log("Added entry: " + term);
+				process.exit(0);
+			});
+		} else {
+			console.log("You must provide a definition.  Try again.");
+			addEntry(term, entries);
+		}
 	});
 }
 
@@ -99,14 +105,20 @@ function editEntry(term, entries, ignore) {
 	}
 	promptYesNo('edit', () => {
 		// edit entry
-		startPrompt(['terms', 'definition', 'description'], '', false, (results) => {
-			entry.term = results.term;
-			entry.definition = results.definition;
-			entry.description = results.description;
-			setEntries(entries, () => {
-				console.log("Edited entry: " + term);
+		startPrompt(['term', 'definition', 'description'], '', false, (results) => {
+			if(results.term && results.definition) {
+				entry.term = results.term;
+				entry.definition = results.definition;
+				entry.description = results.description;
+				setEntries(entries, () => {
+					console.log("Edited entry: " + term);
+					ignore.push(index); // make sure this index gets skipped
+					editEntry(term, entries, ignore);
+				});
+			} else {
+				console.log("You must provide both a term and a definition!  Try again.");
 				editEntry(term, entries, ignore);
-			});
+			}
 		});
 	}, () => {
 		ignore.push(index); // make sure this index gets skipped
@@ -231,7 +243,6 @@ function setEntries(entries, next) {
 	fs.writeFile(getEntryFilePath(), JSON.stringify(entries), (err) => {
 		if(err) throw err;
 		next();
-		process.exit(0);
 	});
 }
 
