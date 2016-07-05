@@ -32,6 +32,7 @@ function learn(subject) {
 }
 
 function addEntry(term, entries) {
+	checkTermIsSet(term); 
 	let entry = {
 		term: term
 	};
@@ -46,6 +47,7 @@ function addEntry(term, entries) {
 }
 
 function deleteEntry(term, entries, ignore) {
+	checkTermIsSet(term); 
 	ignore = typeof ignore === "undefined" ? [] : ignore;
 	let index = entries.findIndex((entry, i) => {
 		if(ignore.indexOf(i) >= 0) return false;
@@ -78,6 +80,7 @@ function deleteEntry(term, entries, ignore) {
 }
 
 function editEntry(term, entries, ignore) {
+	checkTermIsSet(term); 
 	ignore = typeof ignore === "undefined" ? [] : ignore;
 	let index = entries.findIndex((entry, i) => {
 		if(ignore.indexOf(i) >= 0) return false;
@@ -113,6 +116,7 @@ function editEntry(term, entries, ignore) {
 }
 
 function queryEntry(term, entries, ignore) {
+	checkTermIsSet(term); 
 	ignore = typeof ignore === "undefined" ? [] : ignore;
 	let index = entries.findIndex((entry, i) => {
 		if(ignore.indexOf(i) >= 0) return false;
@@ -275,28 +279,30 @@ function getConfig(dataDir, configFile) {
 	}
 }
 
-function checkSubjects(next) {
-	try {
-		if(!config.subject) throw("You must choose a subject.  --help for more info.");
-		next();
-	} catch (e) {
-		console.error(e);
+function checkTermIsSet(term) {
+	if(typeof term !== "string" || term.trim() === "") {
+		console.log("You must provide a term you wish to add. see --help for details.");
+		process.exit(0);
+	}
+}
+
+function checkSubjects() {
+	if(!config.subject) {
+		console.log("You must choose a subject.  --help for more info.");
 		process.exit(1);
 	}
 }
 
 function getSubjects() {
-	checkSubjects(() => {
-		for (let i = 0, l = config.subjects.length; i < l; i++) {
-			console.log( config.subjects[i] );
-		}
-	});
+	checkSubjects();
+	for (let i = 0, l = config.subjects.length; i < l; i++) {
+		console.log( config.subjects[i] );
+	}
 }
 
 function getEntryFilePath() {
-	checkSubjects(() => {
-		return dataDir + "/" + config.subject + '.json';
-	});
+	checkSubjects();
+	return dataDir + "/" + config.subject + '.json';
 }
 
 module.exports = { 
