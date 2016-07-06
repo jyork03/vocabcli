@@ -36,7 +36,7 @@ function addEntry(term, entries) {
 	let entry = {
 		term: term
 	};
-	startPrompt(['definition', 'description', 'tags'], '', false, (results) => {
+	startPrompt(['definition', 'description', { name: 'tags', message: 'space-separated tags' }], '', false, (results) => {
 		if(results.definition) {
 			entry.definition = results.definition;
 			entry.description = results.description;
@@ -110,7 +110,7 @@ function editEntry(term, entries, ignore) {
 	}
 	promptYesNo('edit', () => {
 		// edit entry
-		startPrompt(['term', 'definition', 'description', 'tags'], '', false, (results) => {
+		startPrompt(['term', 'definition', 'description', { name: 'tags', message: 'space-separated tags' }], '', false, (results) => {
 			if(results.term && results.definition) {
 				entry.term = results.term;
 				entry.definition = results.definition;
