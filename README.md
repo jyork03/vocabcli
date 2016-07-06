@@ -30,17 +30,18 @@ vocab --subjects
 To review your entries
 ```bashp
 vocab review
+vocab review --tag <tagname>
 vocab review --reverse --fullScreen
 ```
 
 To quiz yourself
 ```bashp
 vocab quiz
+vocab quiz --tag <tagname>
 vocab quiz --reverse --fullScreen
 ```
 The --reverse option switches to show the 'definition' first, as opposed to the default of 'term' first, while the --fullScreen option will clear the terminal with each new entry is presented.
 
 ##TODO
-* Add tags as a way to make subgroups within subjects
 * Add spaced repetition
 * Improve logging messages with color/font styles/spacing
