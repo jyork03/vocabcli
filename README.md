@@ -1,4 +1,4 @@
-#Vocabcli
+# Vocabcli
 ## Motivation
 I wanted a no nonsense tool to help memorize whatever I wanted to learn.  I've always like flashcards, especially for studying languages, but didn't like the hassle of making them or carrying them around.  I also typically prefer the simplicity of the command line over GUIs.
 
@@ -42,6 +42,6 @@ vocab quiz --reverse --fullScreen
 ```
 The --reverse option switches to show the 'definition' first, as opposed to the default of 'term' first, while the --fullScreen option will clear the terminal with each new entry is presented.
 
-##TODO
+## TODO
 * Add spaced repetition
 * Improve logging messages with color/font styles/spacing
